@@ -1,0 +1,4 @@
+user_id,email,age,is_active
+1,alpha@example.com,29,true
+2,bravo@example.com,34,false
+3,charlie@example.com,41,true
