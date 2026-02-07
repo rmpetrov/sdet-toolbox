@@ -1,9 +1,9 @@
 # sdet-toolbox
 
-[![CI](https://img.shields.io/badge/CI-TODO-lightgrey)](https://github.com/<your-handle>/sdet-toolbox/actions)
-[![Lint](https://img.shields.io/badge/Lint-TODO-lightgrey)](https://github.com/<your-handle>/sdet-toolbox/actions)
-[![Tests](https://img.shields.io/badge/Tests-TODO-lightgrey)](https://github.com/<your-handle>/sdet-toolbox/actions)
-[![Pages](https://img.shields.io/badge/Pages-TODO-lightgrey)](https://<your-handle>.github.io/sdet-toolbox)
+[![CI](https://img.shields.io/badge/CI-TODO-lightgrey)](https://github.com/rmpetrov/sdet-toolbox/actions)
+[![Lint](https://img.shields.io/badge/Lint-TODO-lightgrey)](https://github.com/rmpetrov/sdet-toolbox/actions)
+[![Tests](https://img.shields.io/badge/Tests-TODO-lightgrey)](https://github.com/rmpetrov/sdet-toolbox/actions)
+[![Pages](https://img.shields.io/badge/Pages-TODO-lightgrey)](https://rmpetrov.github.io/sdet-toolbox)
 
 SDET showcase repo focused on fast signal, stable CI, and practical automation patterns. Built for 60-second skims by recruiters and hiring managers.
 
@@ -40,12 +40,13 @@ Quick links: [Mini-projects](mini-projects/README.md) | [Docs](docs/test-strateg
 - [Flaky tests playbook](docs/flaky-tests.md)
 
 ## Proof
-- [E2E UI demo repo](https://github.com/<your-handle>/playwright-e2e-demo)
-- [API automation repo](https://github.com/<your-handle>/api-automation-demo)
-- [Contract testing repo](https://github.com/<your-handle>/contract-tests-demo)
-- [GitHub Pages reports](https://<your-handle>.github.io/<report-repo>)
-- [CI pipelines](https://github.com/<your-handle>/<repo>/actions)
-- [PRs showing quality practices](https://github.com/<your-handle>/<repo>/pulls)
+- [Profile and pinned repos](https://github.com/rmpetrov/rmpetrov)
+- [Playwright UI repo](https://github.com/rmpetrov/playwright-tests)
+- [API automation repo](https://github.com/rmpetrov/<api-automation-repo>)
+- [Contract testing repo](https://github.com/rmpetrov/<contract-tests-repo>)
+- [GitHub Pages reports](https://rmpetrov.github.io/<report-repo>)
+- [CI pipelines](https://github.com/rmpetrov/<repo>/actions)
+- [PRs showing quality practices](https://github.com/rmpetrov/<repo>/pulls)
 
 ## How to run locally
 ```bash
