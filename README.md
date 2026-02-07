@@ -56,7 +56,8 @@ Fast signal, low maintenance, and evidence recruiters can verify quickly.
 - [API automation (typed clients + Pydantic validation)](https://github.com/rmpetrov/playwright-tests/tree/main/api_tests)
 - Contract testing (OpenAPI schema validation): `mini-projects/contract-testing`
 - [GitHub Pages reports](https://rmpetrov.github.io/sdet-toolbox/)
-- [CI pipelines](https://github.com/rmpetrov/playwright-tests/actions)
+- [CI pipelines (this showcase)](https://github.com/rmpetrov/sdet-toolbox/actions)
+- [CI pipelines (playwright-tests)](https://github.com/rmpetrov/playwright-tests/actions)
 - PRs showing quality practices: [#15](https://github.com/rmpetrov/playwright-tests/pull/15), [#16](https://github.com/rmpetrov/playwright-tests/pull/16), [#17](https://github.com/rmpetrov/playwright-tests/pull/17)
 
 ## How to run locally

@@ -22,7 +22,7 @@ Commands
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-./scripts/run_locust_smoke.sh https://example.com
+bash ../../scripts/run_locust_smoke.sh https://example.com
 ```
 
 ## Suggested test cases

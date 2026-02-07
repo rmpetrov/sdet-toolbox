@@ -10,7 +10,7 @@ help:
 	@echo "  make lint         - Run ruff lint on mini-projects"
 	@echo "  make test-ui      - Run Playwright UI smoke tests"
 	@echo "  make test-api     - Run API requests tests"
-	@echo "  make test-contract- Run contract tests (OpenAPI)"
+	@echo "  make test-contract - Run contract tests (OpenAPI)"
 	@echo "  make test-data    - Run data quality tests"
 	@echo "  make perf-smoke   - Run Locust smoke test"
 	@echo "  make clean        - Remove local venv"
