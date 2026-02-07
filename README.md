@@ -7,7 +7,7 @@
 
 SDET showcase repo focused on fast signal, stable CI, and practical automation patterns. Built for 60-second skims by recruiters and hiring managers.
 
-Quick links: [Mini-projects](mini-projects/README.md) | [Docs](docs/test-strategy.md) | [Playwright smoke](mini-projects/ui-playwright-smoke/README.md) | [API pytest](mini-projects/api-requests-pytest/README.md)
+Quick links: [Report portal](https://rmpetrov.github.io/sdet-toolbox/) | [Mini-projects](mini-projects/README.md) | [Docs](docs/test-strategy.md) | [Playwright smoke](mini-projects/ui-playwright-smoke/README.md) | [API pytest](mini-projects/api-requests-pytest/README.md)
 
 ## Highlights
 - CI-ready suite with stable local-only demo targets

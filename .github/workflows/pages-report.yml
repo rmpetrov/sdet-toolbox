@@ -21,11 +21,34 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download Allure results
-        uses: actions/download-artifact@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          path: allure-artifacts
-          pattern: allure-results-*
+          python-version: "3.11"
+
+      - name: Install API test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r mini-projects/api-requests-pytest/requirements.txt
+
+      - name: Install contract test dependencies
+        run: pip install -r mini-projects/contract-testing/requirements.txt
+
+      - name: Install data quality test dependencies
+        run: pip install -r mini-projects/data-quality-tests/requirements.txt
+
+      - name: Install UI test dependencies
+        run: pip install -r mini-projects/ui-playwright-smoke/requirements.txt
+
+      - name: Install Playwright browser
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run tests with Allure
+        run: |
+          pytest mini-projects/api-requests-pytest --alluredir site/allure-results-api-requests-pytest
+          pytest mini-projects/contract-testing --alluredir site/allure-results-contract-testing
+          pytest mini-projects/data-quality-tests --alluredir site/allure-results-data-quality-tests
+          pytest mini-projects/ui-playwright-smoke --alluredir site/allure-results-ui-playwright-smoke
 
       - name: Install Allure
         run: |
@@ -38,14 +61,12 @@ jobs:
       - name: Generate Allure reports
         run: |
           mkdir -p site/reports
-          if [ -d allure-artifacts ]; then
-            for dir in allure-artifacts/*; do
-              if [ -d "$dir" ]; then
-                name="$(basename "$dir")"
-                allure generate "$dir" --clean -o "site/reports/$name"
-              fi
-            done
-          fi
+          for dir in site/allure-results-*; do
+            if [ -d "$dir" ]; then
+              name="$(basename "$dir")"
+              allure generate "$dir" --clean -o "site/reports/$name"
+            fi
+          done
 
       - name: Generate portal page
         run: |
