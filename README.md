@@ -57,6 +57,13 @@ playwright install
 pytest mini-projects/ui-playwright-smoke
 ```
 
+Or use Make targets:
+- `make test-ui`
+- `make test-api`
+- `make test-contract`
+- `make test-data`
+- `make perf-smoke`
+
 ## Mini-projects catalog
 - [UI Playwright smoke](mini-projects/ui-playwright-smoke/README.md)
 - [API Requests + Pytest](mini-projects/api-requests-pytest/README.md)
