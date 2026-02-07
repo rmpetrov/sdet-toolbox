@@ -65,5 +65,5 @@ pytest mini-projects/ui-playwright-smoke
 - [Data quality tests](mini-projects/data-quality-tests/README.md)
 
 ## Contact
-- LinkedIn: [https://www.linkedin.com/in/<your-handle>/](https://www.linkedin.com/in/<your-handle>/)
-- Email: [you@example.com](mailto:you@example.com)
+- LinkedIn: [https://www.linkedin.com/in/rmpetrov/](https://www.linkedin.com/in/rmpetrov/)
+- Email: [rpetrovqa@gmail.com](mailto:rpetrovqa@gmail.com)
