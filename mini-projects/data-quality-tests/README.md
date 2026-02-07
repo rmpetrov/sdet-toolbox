@@ -27,6 +27,12 @@ pip install -r requirements.txt
 pytest
 ```
 
+Allure report
+```bash
+pytest --alluredir=allure-results
+allure generate allure-results --clean -o allure-report
+```
+
 ## Suggested test cases
 - Null checks on key fields
 - Type and range validation

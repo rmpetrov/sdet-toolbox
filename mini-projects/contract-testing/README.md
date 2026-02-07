@@ -28,6 +28,12 @@ pip install -r requirements.txt
 pytest
 ```
 
+Allure report
+```bash
+pytest --alluredir=allure-results
+allure generate allure-results --clean -o allure-report
+```
+
 ## Suggested test cases
 - OpenAPI spec validation
 - Response payload matches OpenAPI schema

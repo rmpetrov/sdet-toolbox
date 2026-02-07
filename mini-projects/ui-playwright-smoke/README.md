@@ -26,6 +26,12 @@ playwright install
 pytest
 ```
 
+Allure report
+```bash
+pytest --alluredir=allure-results
+allure generate allure-results --clean -o allure-report
+```
+
 ## Suggested test cases
 - Home page loads with correct title
 - Primary CTA is visible and clickable

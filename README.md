@@ -9,9 +9,20 @@ SDET showcase repo focused on fast signal, stable CI, and practical automation p
 
 Quick links: [Mini-projects](mini-projects/README.md) | [Docs](docs/test-strategy.md) | [Playwright smoke](mini-projects/ui-playwright-smoke/README.md) | [API pytest](mini-projects/api-requests-pytest/README.md)
 
+## Highlights
+- CI-ready suite with stable local-only demo targets
+- OpenAPI contract validation with schema checks
+- Playwright UI smoke that avoids flaky external dependencies
+- Allure report pipeline published to GitHub Pages
+
+## Why this matters
+Fast signal, low maintenance, and evidence recruiters can verify quickly.
+
 ## Table of contents
 - [What I deliver](#what-i-deliver)
 - [Tech stack](#tech-stack)
+- [Highlights](#highlights)
+- [Why this matters](#why-this-matters)
 - [What to look at first](#what-to-look-at-first)
 - [Proof](#proof)
 - [How to run locally](#how-to-run-locally)

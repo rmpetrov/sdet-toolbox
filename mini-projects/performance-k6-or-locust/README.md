@@ -22,7 +22,7 @@ Commands
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-locust -f locustfile.py --headless -u 5 -r 1 -t 30s --host https://example.com
+./scripts/run_locust_smoke.sh https://example.com
 ```
 
 ## Suggested test cases
@@ -31,6 +31,5 @@ locust -f locustfile.py --headless -u 5 -r 1 -t 30s --host https://example.com
 - P95 response time tracked
 
 ## Next improvements
-- [ ] Add thresholds and fail criteria
 - [ ] Add multiple user journeys
 - [ ] Add CI artifacts and trend charts

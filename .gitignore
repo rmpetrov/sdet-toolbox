@@ -191,6 +191,10 @@ cython_debug/
 # Ruff stuff:
 .ruff_cache/
 
+# Allure reports
+allure-results/
+allure-report/
+
 # PyPI configuration file
 .pypirc
 

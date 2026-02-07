@@ -42,7 +42,7 @@ test-data: venv
 
 perf-smoke: venv
 	$(PIP) install -r mini-projects/performance-k6-or-locust/requirements.txt
-	$(VENV)/bin/locust -f mini-projects/performance-k6-or-locust/locustfile.py --headless -u 5 -r 1 -t 30s --host https://example.com
+	./scripts/run_locust_smoke.sh https://example.com
 
 clean:
 	rm -rf $(VENV)

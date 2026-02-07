@@ -58,8 +58,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r ${{ matrix.project.path }}/requirements.txt
 
-      - name: Run tests
-        run: pytest ${{ matrix.project.path }}
+      - name: Run tests (Allure)
+        run: pytest ${{ matrix.project.path }} --alluredir ${{ matrix.project.path }}/allure-results
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.project.name }}
+          path: ${{ matrix.project.path }}/allure-results
 
   tests-ui:
     name: Tests (ui-playwright-smoke)
@@ -81,5 +88,12 @@ jobs:
       - name: Install Playwright browser
         run: python -m playwright install --with-deps chromium
 
-      - name: Run UI smoke tests
-        run: pytest mini-projects/ui-playwright-smoke
+      - name: Run UI smoke tests (Allure)
+        run: pytest mini-projects/ui-playwright-smoke --alluredir mini-projects/ui-playwright-smoke/allure-results
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-ui-playwright-smoke
+          path: mini-projects/ui-playwright-smoke/allure-results

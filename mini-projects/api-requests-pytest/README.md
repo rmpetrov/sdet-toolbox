@@ -26,6 +26,12 @@ pip install -r requirements.txt
 pytest
 ```
 
+Allure report
+```bash
+pytest --alluredir=allure-results
+allure generate allure-results --clean -o allure-report
+```
+
 ## Suggested test cases
 - Health endpoint returns 200
 - Key resource fetch returns expected fields

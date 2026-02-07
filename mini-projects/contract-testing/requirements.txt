@@ -2,3 +2,4 @@ pytest
 jsonschema
 openapi-spec-validator
 PyYAML
+allure-pytest

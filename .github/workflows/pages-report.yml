@@ -21,7 +21,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Generate lightweight report page
+      - name: Download Allure results
+        uses: actions/download-artifact@v4
+        with:
+          path: allure-artifacts
+          pattern: allure-results-*
+
+      - name: Install Allure
+        run: |
+          curl -sSL -o allure.tgz https://github.com/allure-framework/allure2/releases/download/2.24.1/allure-2.24.1.tgz
+          tar -xzf allure.tgz
+          sudo mv allure-2.24.1 /opt/allure
+          sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
+          allure --version
+
+      - name: Generate Allure reports
+        run: |
+          mkdir -p site/reports
+          if [ -d allure-artifacts ]; then
+            for dir in allure-artifacts/*; do
+              if [ -d "$dir" ]; then
+                name="$(basename "$dir")"
+                allure generate "$dir" --clean -o "site/reports/$name"
+              fi
+            done
+          fi
+
+      - name: Generate portal page
         run: |
           mkdir -p site
           cat <<HTML > site/index.html
@@ -43,6 +69,10 @@ jobs:
             <h1>sdet-toolbox report portal</h1>
             <p class="meta">Generated from branch: ${GITHUB_REF_NAME}</p>
             <ul>
+              <li><a href="reports/allure-results-ui-playwright-smoke/index.html">UI smoke report</a></li>
+              <li><a href="reports/allure-results-api-requests-pytest/index.html">API tests report</a></li>
+              <li><a href="reports/allure-results-contract-testing/index.html">Contract tests report</a></li>
+              <li><a href="reports/allure-results-data-quality-tests/index.html">Data quality report</a></li>
               <li><a href="https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml">CI workflow runs</a></li>
               <li><a href="https://github.com/rmpetrov/sdet-toolbox/tree/main/mini-projects">Mini-projects</a></li>
               <li><a href="https://github.com/rmpetrov/sdet-toolbox/tree/main/docs">Playbooks</a></li>
