@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install lint dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+
+      - name: Run lint
+        run: ruff check mini-projects
+
+  tests-core:
+    name: Tests (${{ matrix.project.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - name: api-requests-pytest
+            path: mini-projects/api-requests-pytest
+          - name: contract-testing
+            path: mini-projects/contract-testing
+          - name: data-quality-tests
+            path: mini-projects/data-quality-tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install project dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ${{ matrix.project.path }}/requirements.txt
+
+      - name: Run tests
+        run: pytest ${{ matrix.project.path }}
+
+  tests-ui:
+    name: Tests (ui-playwright-smoke)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install UI dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r mini-projects/ui-playwright-smoke/requirements.txt
+
+      - name: Install Playwright browser
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run UI smoke tests
+        run: pytest mini-projects/ui-playwright-smoke

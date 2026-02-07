@@ -1,9 +1,9 @@
 # sdet-toolbox
 
-[![CI](https://img.shields.io/badge/CI-TODO-lightgrey)](https://github.com/rmpetrov/sdet-toolbox/actions)
-[![Lint](https://img.shields.io/badge/Lint-TODO-lightgrey)](https://github.com/rmpetrov/sdet-toolbox/actions)
-[![Tests](https://img.shields.io/badge/Tests-TODO-lightgrey)](https://github.com/rmpetrov/sdet-toolbox/actions)
-[![Pages](https://img.shields.io/badge/Pages-TODO-lightgrey)](https://rmpetrov.github.io/sdet-toolbox)
+[![CI](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
+[![Lint](https://img.shields.io/github/actions/workflow/status/rmpetrov/sdet-toolbox/ci.yml?branch=main&label=lint)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/rmpetrov/sdet-toolbox/ci.yml?branch=main&label=tests)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
+[![Pages](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/pages-report.yml/badge.svg?branch=main)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/pages-report.yml)
 
 SDET showcase repo focused on fast signal, stable CI, and practical automation patterns. Built for 60-second skims by recruiters and hiring managers.
 
@@ -44,7 +44,7 @@ Quick links: [Mini-projects](mini-projects/README.md) | [Docs](docs/test-strateg
 - [Playwright UI repo](https://github.com/rmpetrov/playwright-tests)
 - [API automation (typed clients + Pydantic validation)](https://github.com/rmpetrov/playwright-tests/tree/main/api_tests)
 - Contract testing: coming soon (planned OpenAPI schema validation / Pact)
-- GitHub Pages reports: WIP (will enable after Pages is fixed)
+- [GitHub Pages reports](https://rmpetrov.github.io/sdet-toolbox/)
 - [CI pipelines](https://github.com/rmpetrov/playwright-tests/actions)
 - PRs showing quality practices: [#15](https://github.com/rmpetrov/playwright-tests/pull/15), [#16](https://github.com/rmpetrov/playwright-tests/pull/16), [#17](https://github.com/rmpetrov/playwright-tests/pull/17)
 
