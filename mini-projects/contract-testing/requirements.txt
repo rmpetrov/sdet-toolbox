@@ -1,2 +1,4 @@
 pytest
 jsonschema
+openapi-spec-validator
+PyYAML

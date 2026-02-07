@@ -8,15 +8,17 @@ Validate API contracts early to prevent breaking changes.
 - Provider or consumer perspective
 
 ## Key skills demonstrated
-- JSON Schema usage
+- OpenAPI schema validation
+- JSON Schema usage for payload checks
 - Deterministic contract checks
-- Failure messaging for providers
 
 ## Minimal runnable skeleton
 Dependencies
 - Python 3.11+
 - Pytest
 - jsonschema
+- openapi-spec-validator
+- PyYAML
 
 Commands
 ```bash
@@ -27,12 +29,12 @@ pytest
 ```
 
 ## Suggested test cases
-- Contract validation for key resources
+- OpenAPI spec validation
+- Response payload matches OpenAPI schema
 - Required fields and type checks
 - Backward compatibility checks
-- Optional fields with defaults
 
 ## Next improvements
 - [ ] Add provider verification against live API
+- [ ] Add Pact contract tests
 - [ ] Add versioned schemas and change log
-- [ ] Add contract tests in CI gate
