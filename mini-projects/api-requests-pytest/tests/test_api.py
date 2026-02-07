@@ -29,7 +29,7 @@ class _ApiHandler(BaseHTTPRequestHandler):
 
 
 @pytest.fixture(scope="module")
-def base_url():
+def api_base_url():
     server = ThreadingHTTPServer(("127.0.0.1", 0), _ApiHandler)
     thread = Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -40,14 +40,14 @@ def base_url():
     thread.join(timeout=2)
 
 
-def test_health_endpoint(base_url):
-    response = requests.get(f"{base_url}/health", timeout=5)
+def test_health_endpoint(api_base_url):
+    response = requests.get(f"{api_base_url}/health", timeout=5)
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
 
 
-def test_get_post_by_id(base_url):
-    response = requests.get(f"{base_url}/posts/1", timeout=5)
+def test_get_post_by_id(api_base_url):
+    response = requests.get(f"{api_base_url}/posts/1", timeout=5)
     assert response.status_code == 200
     payload = response.json()
     assert payload["id"] == 1
@@ -55,7 +55,7 @@ def test_get_post_by_id(base_url):
     assert "body" in payload
 
 
-def test_not_found_payload_shape(base_url):
-    response = requests.get(f"{base_url}/posts/999", timeout=5)
+def test_not_found_payload_shape(api_base_url):
+    response = requests.get(f"{api_base_url}/posts/999", timeout=5)
     assert response.status_code == 404
     assert response.json() == {"error": "not_found"}
