@@ -1,18 +1,23 @@
 # Contributing
 
-Thanks for taking the time to contribute.
+## Install
+```bash
+python3 -m venv .venv
+make setup
+```
 
-## Quick start
-- Fork and clone the repo
-- Create a feature branch
-- Keep changes small and focused
+## Run checks locally
+```bash
+make lint
+make test
+```
 
-## Quality bar
-- Tests must pass for the affected area
-- Prefer clear assertions and stable selectors
-- Add or update docs when behavior changes
+## View reports
+1. Run tests (`make test` or target-specific test commands).
+2. Generate reports (`make report`).
+3. Open `site/reports/<project>/index.html`.
 
-## Pull requests
-- Use the PR template
-- Link issues when applicable
-- Include test evidence or report links
+## Branch and PR style
+- Branches: short, descriptive, kebab-case (for example `fix/api-timeout-assertion`).
+- Commits: focused and atomic; one logical change per commit.
+- Pull requests: include context, testing evidence (commands/output), and linked issue when applicable.
