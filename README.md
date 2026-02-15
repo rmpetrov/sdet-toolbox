@@ -13,6 +13,19 @@
 
 Recruiter-first SDET portfolio with runnable mini-projects, CI, and published reports.
 
+## Quick start
+```bash
+python3 -m venv .venv
+make setup
+make lint
+make test
+make report
+```
+
+- Local reports: `site/reports` (after `make report`, requires Allure CLI)
+- CI workflow: [GitHub Actions CI](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
+- Published reports: [GitHub Pages report portal](https://rmpetrov.github.io/sdet-toolbox/)
+
 ## Portfolio map
 - [playwright-tests](https://github.com/rmpetrov/playwright-tests): end-to-end UI + API framework, CI, and reports
 - `sdet-toolbox` (this repo): compact showcase with CI, reports, and focused samples

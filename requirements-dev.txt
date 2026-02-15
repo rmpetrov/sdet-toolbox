@@ -1,0 +1,6 @@
+-r mini-projects/api-requests-pytest/requirements.txt
+-r mini-projects/contract-testing/requirements.txt
+-r mini-projects/data-quality-tests/requirements.txt
+-r mini-projects/ui-playwright-smoke/requirements.txt
+-r mini-projects/performance-k6-or-locust/requirements.txt
+ruff==0.8.4

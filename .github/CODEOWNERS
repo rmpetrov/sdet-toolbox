@@ -1,1 +1,9 @@
+# Default owner for all paths.
 * @rmpetrov
+
+# Workflow and policy files.
+/.github/ @rmpetrov
+
+# Core repository areas.
+/docs/ @rmpetrov
+/mini-projects/ @rmpetrov
