@@ -41,7 +41,7 @@ setup: $(VENV)/bin/activate
 
 lint: setup
 	$(RUFF) check . --fix
-	$(RUFF) format --check .
+	$(RUFF) format .
 
 test-api: setup
 	$(PYTEST) $(API_DIR) --alluredir $(API_DIR)/allure-results
