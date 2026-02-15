@@ -40,7 +40,7 @@ $(VENV)/bin/activate: requirements-dev.txt
 setup: $(VENV)/bin/activate
 
 lint: setup
-	$(RUFF) check .
+	$(RUFF) check . --fix
 	$(RUFF) format --check .
 
 test-api: setup
