@@ -1,48 +1,74 @@
+SHELL := /usr/bin/env bash
+
 PYTHON ?= python3
 VENV ?= .venv
-PIP := $(VENV)/bin/pip
-PY := $(VENV)/bin/python
+BIN := $(VENV)/bin
+PY := $(BIN)/python
+PIP := $(BIN)/pip
+PYTEST := $(BIN)/pytest
+RUFF := $(BIN)/ruff
 
-.PHONY: help venv lint test-ui test-api test-contract test-data perf-smoke clean
+PLAYWRIGHT_INSTALL_ARGS ?= chromium
+
+API_DIR := mini-projects/api-requests-pytest
+CONTRACT_DIR := mini-projects/contract-testing
+DATA_DIR := mini-projects/data-quality-tests
+UI_DIR := mini-projects/ui-playwright-smoke
+PERF_DIR := mini-projects/performance-k6-or-locust
+
+.PHONY: help setup lint test test-api test-ui test-contract test-data perf-smoke report clean
 
 help:
 	@echo "Targets:"
-	@echo "  make lint         - Run ruff lint on mini-projects"
+	@echo "  make setup        - Create .venv and install pinned dependencies"
+	@echo "  make lint         - Run Ruff lint + format checks"
+	@echo "  make test         - Run all automated tests"
+	@echo "  make test-api     - Run API request tests"
 	@echo "  make test-ui      - Run Playwright UI smoke tests"
-	@echo "  make test-api     - Run API requests tests"
-	@echo "  make test-contract - Run contract tests (OpenAPI)"
+	@echo "  make test-contract - Run OpenAPI / contract tests"
 	@echo "  make test-data    - Run data quality tests"
 	@echo "  make perf-smoke   - Run Locust smoke test"
-	@echo "  make clean        - Remove local venv"
+	@echo "  make report       - Generate Allure HTML reports into site/reports"
+	@echo "  make clean        - Remove local virtualenv and generated artifacts"
 
-venv:
+$(VENV)/bin/activate: requirements-dev.txt
 	$(PYTHON) -m venv $(VENV)
 	$(PIP) install --upgrade pip
+	$(PIP) install -r requirements-dev.txt
+	touch $(VENV)/bin/activate
 
-lint: venv
-	$(PIP) install ruff
-	$(VENV)/bin/ruff check mini-projects
+setup: $(VENV)/bin/activate
 
-test-ui: venv
-	$(PIP) install -r mini-projects/ui-playwright-smoke/requirements.txt
-	$(PY) -m playwright install chromium
-	$(VENV)/bin/pytest mini-projects/ui-playwright-smoke
+lint: setup
+	$(RUFF) check .
+	$(RUFF) format --check .
 
-test-api: venv
-	$(PIP) install -r mini-projects/api-requests-pytest/requirements.txt
-	$(VENV)/bin/pytest mini-projects/api-requests-pytest
+test-api: setup
+	$(PYTEST) $(API_DIR) --alluredir $(API_DIR)/allure-results
 
-test-contract: venv
-	$(PIP) install -r mini-projects/contract-testing/requirements.txt
-	$(VENV)/bin/pytest mini-projects/contract-testing
+test-contract: setup
+	$(PYTEST) $(CONTRACT_DIR) --alluredir $(CONTRACT_DIR)/allure-results
 
-test-data: venv
-	$(PIP) install -r mini-projects/data-quality-tests/requirements.txt
-	$(VENV)/bin/pytest mini-projects/data-quality-tests
+test-data: setup
+	$(PYTEST) $(DATA_DIR) --alluredir $(DATA_DIR)/allure-results
 
-perf-smoke: venv
-	$(PIP) install -r mini-projects/performance-k6-or-locust/requirements.txt
+test-ui: setup
+	$(PY) -m playwright install $(PLAYWRIGHT_INSTALL_ARGS)
+	$(PYTEST) $(UI_DIR) --alluredir $(UI_DIR)/allure-results
+
+test: test-api test-contract test-data test-ui
+
+perf-smoke: setup
 	./scripts/run_locust_smoke.sh https://example.com
 
+report:
+	@if ! command -v allure >/dev/null 2>&1; then \
+		echo "allure CLI is required for 'make report'"; \
+		echo "Install from https://allurereport.org/docs/install/"; \
+		exit 1; \
+	fi
+	./scripts/build_reports.sh
+
 clean:
-	rm -rf $(VENV)
+	rm -rf $(VENV) .pytest_cache .ruff_cache site/reports
+	find mini-projects -type d -name allure-results -prune -exec rm -rf {} +
