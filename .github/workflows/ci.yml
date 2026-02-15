@@ -22,14 +22,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: |
+            requirements-dev.txt
+            mini-projects/**/requirements.txt
 
-      - name: Install lint dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install ruff
+      - name: Setup environment
+        run: make setup
 
       - name: Run lint
-        run: ruff check mini-projects
+        run: make lint
 
   tests-core:
     name: Tests (${{ matrix.project.name }})
@@ -39,10 +41,13 @@ jobs:
       matrix:
         project:
           - name: api-requests-pytest
+            target: test-api
             path: mini-projects/api-requests-pytest
           - name: contract-testing
+            target: test-contract
             path: mini-projects/contract-testing
           - name: data-quality-tests
+            target: test-data
             path: mini-projects/data-quality-tests
     steps:
       - name: Checkout
@@ -52,14 +57,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: |
+            requirements-dev.txt
+            mini-projects/**/requirements.txt
 
-      - name: Install project dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r ${{ matrix.project.path }}/requirements.txt
+      - name: Setup environment
+        run: make setup
 
       - name: Run tests (Allure)
-        run: pytest ${{ matrix.project.path }} --alluredir ${{ matrix.project.path }}/allure-results
+        run: make ${{ matrix.project.target }}
 
       - name: Upload Allure results
         if: always()
@@ -79,17 +86,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: |
+            requirements-dev.txt
+            mini-projects/**/requirements.txt
 
-      - name: Install UI dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r mini-projects/ui-playwright-smoke/requirements.txt
-
-      - name: Install Playwright browser
-        run: python -m playwright install --with-deps chromium
+      - name: Setup environment
+        run: make setup
 
       - name: Run UI smoke tests (Allure)
-        run: pytest mini-projects/ui-playwright-smoke --alluredir mini-projects/ui-playwright-smoke/allure-results
+        run: make test-ui PLAYWRIGHT_INSTALL_ARGS="--with-deps chromium"
 
       - name: Upload Allure results
         if: always()
