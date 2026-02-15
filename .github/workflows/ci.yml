@@ -42,13 +42,16 @@ jobs:
         project:
           - name: api-requests-pytest
             target: test-api
-            path: mini-projects/api-requests-pytest
+            results_path: mini-projects/api-requests-pytest/allure-results
+            artifact_name: allure-results-api-requests-pytest
           - name: contract-testing
             target: test-contract
-            path: mini-projects/contract-testing
+            results_path: mini-projects/contract-testing/allure-results
+            artifact_name: allure-results-contract-testing
           - name: data-quality-tests
             target: test-data
-            path: mini-projects/data-quality-tests
+            results_path: mini-projects/data-quality-tests/allure-results
+            artifact_name: allure-results-data-quality-tests
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -72,8 +75,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ matrix.project.name }}
-          path: ${{ matrix.project.path }}/allure-results
+          name: ${{ matrix.project.artifact_name }}
+          path: ${{ matrix.project.results_path }}
 
   tests-ui:
     name: Tests (ui-playwright-smoke)

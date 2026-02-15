@@ -51,7 +51,7 @@ jobs:
       - name: Generate Allure reports
         run: make report
 
-      - name: Generate portal page
+      - name: Ensure portal page
         run: |
           mkdir -p site
           cat <<HTML > site/index.html
@@ -73,10 +73,10 @@ jobs:
             <h1>sdet-toolbox report portal</h1>
             <p class="meta">Generated from branch: ${GITHUB_REF_NAME}</p>
             <ul>
-              <li><a href="reports/ui-playwright-smoke/index.html">UI smoke report</a></li>
-              <li><a href="reports/api-requests-pytest/index.html">API tests report</a></li>
-              <li><a href="reports/contract-testing/index.html">Contract tests report</a></li>
-              <li><a href="reports/data-quality-tests/index.html">Data quality report</a></li>
+              <li><a href="reports/ui-playwright-smoke/">UI smoke report</a></li>
+              <li><a href="reports/api-requests-pytest/">API tests report</a></li>
+              <li><a href="reports/contract-testing/">Contract tests report</a></li>
+              <li><a href="reports/data-quality-tests/">Data quality report</a></li>
               <li><a href="https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml">CI workflow runs</a></li>
               <li><a href="https://github.com/rmpetrov/sdet-toolbox/tree/main/mini-projects">Mini-projects</a></li>
               <li><a href="https://github.com/rmpetrov/sdet-toolbox/tree/main/docs">Playbooks</a></li>
