@@ -74,7 +74,7 @@ report:
 		echo "Install from https://allurereport.org/docs/install/"; \
 		exit 1; \
 	fi
-	./scripts/build_reports.sh
+	bash scripts/build_reports.sh
 
 clean:
 	rm -rf $(VENV) .pytest_cache .ruff_cache site/reports
