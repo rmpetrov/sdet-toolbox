@@ -26,9 +26,7 @@ def test_openapi_spec_is_valid():
 
 def test_user_response_matches_openapi_schema():
     spec = safe_load(OPENAPI_PATH.read_text())
-    response_schema = (
-        spec["paths"]["/users/{id}"]["get"]["responses"]["200"]["content"]["application/json"]["schema"]
-    )
+    response_schema = spec["paths"]["/users/{id}"]["get"]["responses"]["200"]["content"]["application/json"]["schema"]
     payload = json.loads(FIXTURE_PATH.read_text())
     resolver = RefResolver.from_schema(spec)
     validator = Draft7Validator(response_schema, resolver=resolver, format_checker=FormatChecker())
