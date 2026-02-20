@@ -25,6 +25,8 @@ make report
 - Local reports: `site/reports` (after `make report`, requires Allure CLI)
 - CI workflow: [GitHub Actions CI](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
 - Published reports: [GitHub Pages report portal](https://rmpetrov.github.io/sdet-toolbox/)
+- `make lint`: check-only; fails on lint/format violations and does not modify files
+- `make fmt`: applies lint fixes and formatting
 
 ## Portfolio map
 - [playwright-tests](https://github.com/rmpetrov/playwright-tests): end-to-end UI + API framework, CI, and reports

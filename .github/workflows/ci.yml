@@ -29,7 +29,6 @@ jobs:
 
       - name: Setup environment
         run: make setup
-
       - name: Run lint
         run: make lint
 
