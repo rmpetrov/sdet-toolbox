@@ -16,12 +16,13 @@ DATA_DIR := mini-projects/data-quality-tests
 UI_DIR := mini-projects/ui-playwright-smoke
 PERF_DIR := mini-projects/performance-k6-or-locust
 
-.PHONY: help setup lint test test-api test-ui test-contract test-data perf-smoke report clean
+.PHONY: help setup lint fmt format test test-api test-ui test-contract test-data perf-smoke report clean
 
 help:
 	@echo "Targets:"
 	@echo "  make setup        - Create .venv and install pinned dependencies"
-	@echo "  make lint         - Run Ruff lint + format checks"
+	@echo "  make lint         - Run Ruff checks only (lint + format, no file changes)"
+	@echo "  make fmt          - Apply Ruff lint fixes and formatting"
 	@echo "  make test         - Run all automated tests"
 	@echo "  make test-api     - Run API request tests"
 	@echo "  make test-ui      - Run Playwright UI smoke tests"
@@ -40,8 +41,14 @@ $(VENV)/bin/activate: requirements-dev.txt
 setup: $(VENV)/bin/activate
 
 lint: setup
+	$(RUFF) check .
+	$(RUFF) format --check .
+
+fmt: setup
 	$(RUFF) check . --fix
 	$(RUFF) format .
+
+format: fmt
 
 test-api: setup
 	$(PYTEST) $(API_DIR) --alluredir $(API_DIR)/allure-results

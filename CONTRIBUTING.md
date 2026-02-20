@@ -9,8 +9,16 @@ make setup
 ## Run checks locally
 ```bash
 make lint
+make fmt
 make test
 ```
+
+## Quality bar
+- Tests must pass for the affected area
+- Prefer clear assertions and stable selectors
+- Add or update docs when behavior changes
+- `make lint` is check-only and fails on lint/format violations
+- Use `make fmt` to apply lint fixes and formatting
 
 ## View reports
 1. Run tests (`make test` or target-specific test commands).
