@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 
-import yaml
 from jsonschema import Draft7Validator, FormatChecker, RefResolver
 from openapi_spec_validator import validate_spec
+from yaml import safe_load
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -21,12 +21,12 @@ def test_user_contract_fixture():
 
 
 def test_openapi_spec_is_valid():
-    spec = yaml.safe_load(OPENAPI_PATH.read_text())
+    spec = safe_load(OPENAPI_PATH.read_text())
     validate_spec(spec)
 
 
 def test_user_response_matches_openapi_schema():
-    spec = yaml.safe_load(OPENAPI_PATH.read_text())
+    spec = safe_load(OPENAPI_PATH.read_text())
     response_schema = (
         spec["paths"]["/users/{id}"]["get"]["responses"]["200"]["content"]["application/json"]["schema"]
     )
