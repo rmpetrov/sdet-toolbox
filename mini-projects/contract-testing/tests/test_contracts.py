@@ -5,7 +5,6 @@ from jsonschema import Draft7Validator, FormatChecker, RefResolver
 from openapi_spec_validator import validate_spec
 from yaml import safe_load
 
-
 BASE_DIR = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = BASE_DIR / "contracts" / "user.schema.json"
 FIXTURE_PATH = BASE_DIR / "fixtures" / "user.json"

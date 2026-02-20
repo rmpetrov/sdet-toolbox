@@ -3,7 +3,6 @@ from pathlib import Path
 import pandera as pa
 import pandas as pd
 
-
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_PATH = BASE_DIR / "data" / "sample.csv"
 
