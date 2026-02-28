@@ -72,7 +72,7 @@ jobs:
 
       - name: Upload Allure results
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.project.artifact_name }}
           path: ${{ matrix.project.results_path }}
@@ -101,7 +101,7 @@ jobs:
 
       - name: Upload Allure results
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: allure-results-ui-playwright-smoke
           path: mini-projects/ui-playwright-smoke/allure-results
