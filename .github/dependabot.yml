@@ -5,22 +5,6 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/mini-projects/ui-playwright-smoke"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/mini-projects/api-requests-pytest"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/mini-projects/contract-testing"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/mini-projects/performance-k6-or-locust"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/mini-projects/data-quality-tests"
+    directory: "/"
     schedule:
       interval: "weekly"
