@@ -16,6 +16,11 @@ updates:
     directory: "/mini-projects/contract-testing"
     schedule:
       interval: "weekly"
+    ignore:
+      # openapi-spec-validator==0.8.4 currently requires jsonschema>=4.24.0,<4.25.0
+      - dependency-name: "jsonschema"
+        versions:
+          - ">=4.25.0"
   - package-ecosystem: "pip"
     directory: "/mini-projects/performance-k6-or-locust"
     schedule:
