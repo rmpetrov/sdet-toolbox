@@ -1,35 +1,35 @@
 # Performance testing (Locust)
 
-## Goal
-Show a lightweight load test that can run locally or in CI for smoke-level performance checks.
+Lightweight performance smoke example for checking whether a simple user path stays within basic failure and latency thresholds.
 
-## Scope
-- Single endpoint load
-- Simple user behavior model
+## What this project validates
+- A repeated `GET /` request against a target host
+- Failure-count threshold enforcement
+- P95 response-time threshold enforcement from Locust CSV output
 
-## Key skills demonstrated
-- Load test design basics
-- Headless execution
-- Interpreting failure thresholds
+## Testing scope
+- The current Locust user model contains a single task and is meant for smoke-level execution, not full load or capacity analysis.
+- The helper script runs headless and evaluates the aggregated results after the run finishes.
+- Default settings are intentionally modest: 5 users, 30 seconds, no failures allowed, and `p95 <= 1000ms`.
 
-## Minimal runnable skeleton
-Dependencies
-- Python 3.11+
+## Tools used
+- Python 3.11
 - Locust
+- Bash helper script for threshold checks
 
-Commands
+## Why it matters
+- Performance smoke checks can catch obvious latency or stability regressions before deeper testing begins.
+- Threshold-based execution is useful for repeatable release checks and faster troubleshooting.
+- Keeping the scenario small makes it easier to understand what failed and why.
+
+## How to run
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 bash ../../scripts/run_locust_smoke.sh https://example.com
 ```
 
-## Suggested test cases
-- Baseline latency under load
-- Error rate stays under threshold
-- P95 response time tracked
+You can override the defaults with environment variables such as `USERS`, `SPAWN_RATE`, `DURATION`, `P95_MS`, and `MAX_FAIL`.
 
-## Next improvements
-- [ ] Add multiple user journeys
-- [ ] Add CI artifacts and trend charts
+From the repository root, you can also run `make perf-smoke` for the default example target.

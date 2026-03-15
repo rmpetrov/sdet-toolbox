@@ -1,9 +1,3 @@
-## Start here (60 sec)
-- [playwright-tests repo](https://github.com/rmpetrov/playwright-tests)
-- [playwright-tests reports (GitHub Pages)](https://rmpetrov.github.io/playwright-tests/)
-- [sdet-toolbox reports (GitHub Pages)](https://rmpetrov.github.io/sdet-toolbox/)
-- [playwright-tests CI workflow runs](https://github.com/rmpetrov/playwright-tests/actions)
-
 # sdet-toolbox
 
 [![CI](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
@@ -11,42 +5,86 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/rmpetrov/sdet-toolbox/ci.yml?branch=main&label=tests)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
 [![Pages](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/pages-report.yml/badge.svg?branch=main)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/pages-report.yml)
 
-Recruiter-first SDET portfolio with runnable mini-projects, CI, and published reports.
+Practical QA and test engineering toolkit with compact, runnable projects for UI smoke checks, API validation, contract testing, data quality checks, and lightweight performance coverage. The examples are intentionally small enough to run locally, troubleshoot in CI, and reuse as validation-focused starting points.
 
-## Quick start
+## Quick links
+- [Mini-projects catalog](mini-projects/README.md)
+- [GitHub Actions CI](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
+- [Published reports](https://rmpetrov.github.io/sdet-toolbox/)
+- [Test strategy](docs/test-strategy.md)
+- [Reporting notes](docs/reporting.md)
+- [Related Playwright framework repo](https://github.com/rmpetrov/playwright-tests)
+
+## What this repo covers
+- UI smoke checks for critical user-facing paths
+- API response validation with readable assertions and predictable fixtures
+- Contract safety using OpenAPI and JSON Schema validation
+- Data quality checks for schema, null, type, range, and uniqueness rules
+- Performance smoke execution with simple pass/fail thresholds
+- Reproducible execution through pinned dependencies, Make targets, CI, and report generation
+
+## Mini-project map
+- [ui-playwright-smoke](mini-projects/ui-playwright-smoke/README.md): Playwright + pytest smoke checks for fast UI regression signal
+- [api-requests-pytest](mini-projects/api-requests-pytest/README.md): Python-based API validation with local endpoints and clear failure diagnostics
+- [contract-testing](mini-projects/contract-testing/README.md): OpenAPI and JSON Schema checks for contract consistency
+- [data-quality-tests](mini-projects/data-quality-tests/README.md): Pandera-based data validation for schema and business-rule coverage
+- [performance-k6-or-locust](mini-projects/performance-k6-or-locust/README.md): Locust smoke example with lightweight thresholds for response time and failures
+
+## Why this repo matters
+- It shows practical validation work across UI, API, contract, data, and performance-focused checks.
+- It favors maintainable automation over broad but brittle coverage.
+- It is useful for regression confidence, troubleshooting, and repeatable local or CI execution.
+- It includes report publishing and CI visibility where that helps make failures easier to inspect.
+
+## Tools and stack
+- Python 3.11
+- pytest
+- Playwright
+- Requests
+- pandas
+- Pandera
+- `jsonschema`
+- `openapi-spec-validator`
+- OpenAPI YAML examples
+- Locust
+- Ruff
+- Allure
+- GitHub Actions
+
+## How to run
 ```bash
-python3 -m venv .venv
 make setup
 make lint
 make test
+make perf-smoke
 make report
 ```
 
-- Local reports: `site/reports` (after `make report`, requires Allure CLI)
-- CI workflow: [GitHub Actions CI](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
-- Published reports: [GitHub Pages report portal](https://rmpetrov.github.io/sdet-toolbox/)
-- `make lint`: check-only; fails on lint/format violations and does not modify files
-- `make fmt`: applies lint fixes and formatting
+- `make setup` creates `.venv` and installs the pinned dependencies used across the mini-projects.
+- `make test` runs the API, contract, data quality, and UI projects.
+- `make test-ui` installs Playwright browsers before running the smoke suite.
+- `make report` generates local Allure HTML into `site/reports` and requires the Allure CLI to be installed.
+- `make perf-smoke` runs the Locust smoke example against `https://example.com` by default.
 
-## Portfolio map
-- [playwright-tests](https://github.com/rmpetrov/playwright-tests): end-to-end UI + API framework, CI, and reports
-- `sdet-toolbox` (this repo): compact showcase with CI, reports, and focused samples
-- [ui-playwright-smoke](mini-projects/ui-playwright-smoke/README.md): Playwright + Pytest UI smoke suite on local targets
-- [api-requests-pytest](mini-projects/api-requests-pytest/README.md): API checks with Requests + Pytest fixtures
-- [contract-testing](mini-projects/contract-testing/README.md): OpenAPI and JSON schema validation
-- [data-quality-tests](mini-projects/data-quality-tests/README.md): data validation with Pandera on CSV samples
-- [performance-k6-or-locust](mini-projects/performance-k6-or-locust/README.md): Locust smoke load test skeleton
+## Project structure
+```text
+.
+|-- docs/
+|-- mini-projects/
+|   |-- api-requests-pytest/
+|   |-- contract-testing/
+|   |-- data-quality-tests/
+|   |-- performance-k6-or-locust/
+|   `-- ui-playwright-smoke/
+|-- scripts/
+|-- Makefile
+`-- requirements-dev.txt
+```
 
-## Skills demonstrated → Evidence
-- CI/CD → [sdet-toolbox CI workflow](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml), [playwright-tests CI runs](https://github.com/rmpetrov/playwright-tests/actions)
-- Reporting → [sdet-toolbox reports](https://rmpetrov.github.io/sdet-toolbox/), [playwright-tests reports](https://rmpetrov.github.io/playwright-tests/), [reporting approach](docs/reporting.md)
-- Flaky test policy → [flaky tests playbook](docs/flaky-tests.md)
-- Page Object Model (POM) → [playwright-tests repo](https://github.com/rmpetrov/playwright-tests)
-- API tests → [api-requests-pytest](mini-projects/api-requests-pytest/README.md), [contract-testing](mini-projects/contract-testing/README.md)
-
-## Key docs
-- [Architecture & test strategy](docs/test-strategy.md)
-- [CI/CD pipeline](docs/ci-cd.md)
+## CI, reports, and docs
+- CI runs linting plus the API, contract, data quality, and UI test projects on GitHub Actions.
+- The Pages workflow publishes Allure reports for the UI, API, contract, and data quality projects.
+- Supporting docs cover [test strategy](docs/test-strategy.md), [CI/CD](docs/ci-cd.md), [reporting](docs/reporting.md), and [flaky test handling](docs/flaky-tests.md).
 
 ## Contact
 - LinkedIn: [https://www.linkedin.com/in/rmpetrov/](https://www.linkedin.com/in/rmpetrov/)

@@ -1,44 +1,42 @@
 # UI Playwright smoke
 
-## Goal
-Deliver a fast UI smoke suite that gates merges and catches obvious breakages.
+Playwright + pytest smoke suite for validating critical UI paths in a small, reproducible example.
 
-## Scope
-- Single browser, critical paths only
-- Deterministic selectors and clear failure output
+## What this project validates
+- Page rendering and expected document title
+- Visibility and behavior of a primary UI action
+- Stable selector usage for smoke-level regression checks
 
-## Key skills demonstrated
-- Playwright + Pytest wiring
-- Page object thinking and stable selectors
-- CI-friendly smoke design
+## Testing scope
+- The current tests use `page.set_content(...)` rather than an external site, which keeps execution deterministic and fast.
+- Coverage is intentionally small and focused on obvious breakage detection rather than broad end-to-end workflow coverage.
+- The example can be extended into live-environment checks, page objects, traces, and screenshots.
 
-## Minimal runnable skeleton
-Dependencies
-- Python 3.11+
+## Tools used
+- Python 3.11
+- pytest
 - Playwright
+- `pytest-playwright`
+- Allure for optional reporting
 
-Commands
+## Why it matters
+- UI smoke checks provide quick regression-oriented feedback on critical paths.
+- Local, deterministic execution helps with troubleshooting and CI stability.
+- Small, maintainable checks are easier to trust, review, and expand.
+
+## How to run
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-playwright install
+playwright install chromium
 pytest
 ```
 
-Allure report
+Optional report generation:
 ```bash
 pytest --alluredir=allure-results
 allure generate allure-results --clean -o allure-report
 ```
 
-## Suggested test cases
-- Home page loads with correct title
-- Primary CTA is visible and clickable
-- Authenticated user sees expected nav
-- Critical form validations
-
-## Next improvements
-- [ ] Add POM layer and component helpers
-- [ ] Add trace and screenshot artifacts on failure
-- [ ] Add parallel runs and sharding strategy
+From the repository root, you can also run `make test-ui`.

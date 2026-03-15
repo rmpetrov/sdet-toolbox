@@ -1,44 +1,40 @@
 # API Requests + Pytest
 
-## Goal
-Create a fast API regression check with clear assertions and failure messages.
+Python-based API checks for response validation, readable failure diagnostics, and repeatable local execution.
 
-## Scope
-- Read-only requests
-- Status, schema, and key field validation
+## What this project validates
+- Health endpoint availability and expected payload
+- Resource retrieval with key field checks
+- Error response shape for missing resources
 
-## Key skills demonstrated
-- Requests + Pytest structure
-- Assertion quality and readable failures
-- Contract-minded API checks
+## Testing scope
+- The test suite starts a local HTTP server in a pytest fixture, so the example stays self-contained and reproducible.
+- Coverage is read-only and focused on status codes, response bodies, and clear assertions.
+- The current example does not include auth, write operations, or environment-specific configuration.
 
-## Minimal runnable skeleton
-Dependencies
-- Python 3.11+
+## Tools used
+- Python 3.11
+- pytest
 - Requests
-- Pytest
+- Allure for optional reporting
 
-Commands
+## Why it matters
+- API checks add fast regression confidence below the UI layer.
+- Local fixtures make failures easier to reproduce and troubleshoot.
+- Clear assertions help turn broken responses into actionable debugging output.
+
+## How to run
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 pytest
 ```
 
-Allure report
+Optional report generation:
 ```bash
 pytest --alluredir=allure-results
 allure generate allure-results --clean -o allure-report
 ```
 
-## Suggested test cases
-- Health endpoint returns 200
-- Key resource fetch returns expected fields
-- Error payload shape on 4xx
-- Rate limit headers present
-
-## Next improvements
-- [ ] Add JSON schema validation
-- [ ] Add auth and env config
-- [ ] Add negative tests and edge cases
+From the repository root, you can also run `make test-api`.
