@@ -60,9 +60,9 @@ make perf-smoke
 make report
 ```
 
-- `make setup` creates `.venv` and installs the pinned dependencies used across the mini-projects.
-- `make test` runs the API, contract, data quality, and UI projects.
-- `make test-ui` installs Playwright browsers before running the smoke suite.
+- `make setup` creates the shared tooling environment used for linting and formatting.
+- `make test` runs the API, contract, data quality, and UI projects in isolated virtual environments under `.venvs/`.
+- `make test-ui` installs Playwright browsers inside the UI project environment before running the smoke suite.
 - `make report` generates local Allure HTML into `site/reports` and requires the Allure CLI to be installed.
 - `make perf-smoke` runs the Locust smoke example against `https://example.com` by default.
 
@@ -76,6 +76,7 @@ make report
 |   |-- data-quality-tests/
 |   |-- performance-k6-or-locust/
 |   `-- ui-playwright-smoke/
+|-- .venvs/
 |-- scripts/
 |-- Makefile
 `-- requirements-dev.txt

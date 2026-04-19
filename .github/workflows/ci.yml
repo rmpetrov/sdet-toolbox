@@ -23,12 +23,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: "pip"
-          cache-dependency-path: |
-            requirements-dev.txt
-            mini-projects/**/requirements.txt
-
-      - name: Setup environment
-        run: make setup
+          cache-dependency-path: requirements-dev.txt
       - name: Run lint
         run: make lint
 
@@ -41,14 +36,17 @@ jobs:
         project:
           - name: api-requests-pytest
             target: test-api
+            requirements_path: mini-projects/api-requests-pytest/requirements.txt
             results_path: mini-projects/api-requests-pytest/allure-results
             artifact_name: allure-results-api-requests-pytest
           - name: contract-testing
             target: test-contract
+            requirements_path: mini-projects/contract-testing/requirements.txt
             results_path: mini-projects/contract-testing/allure-results
             artifact_name: allure-results-contract-testing
           - name: data-quality-tests
             target: test-data
+            requirements_path: mini-projects/data-quality-tests/requirements.txt
             results_path: mini-projects/data-quality-tests/allure-results
             artifact_name: allure-results-data-quality-tests
     steps:
@@ -60,12 +58,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: "pip"
-          cache-dependency-path: |
-            requirements-dev.txt
-            mini-projects/**/requirements.txt
-
-      - name: Setup environment
-        run: make setup
+          cache-dependency-path: ${{ matrix.project.requirements_path }}
 
       - name: Run tests (Allure)
         run: make ${{ matrix.project.target }}
@@ -89,12 +82,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: "pip"
-          cache-dependency-path: |
-            requirements-dev.txt
-            mini-projects/**/requirements.txt
-
-      - name: Setup environment
-        run: make setup
+          cache-dependency-path: mini-projects/ui-playwright-smoke/requirements.txt
 
       - name: Run UI smoke tests (Allure)
         run: make test-ui PLAYWRIGHT_INSTALL_ARGS="--with-deps chromium"

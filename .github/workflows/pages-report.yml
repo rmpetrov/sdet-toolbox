@@ -30,9 +30,6 @@ jobs:
             requirements-dev.txt
             mini-projects/**/requirements.txt
 
-      - name: Setup environment
-        run: make setup
-
       - name: Run tests
         run: |
           make test-api
