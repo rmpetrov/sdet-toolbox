@@ -7,10 +7,11 @@ SPAWN_RATE="${SPAWN_RATE:-1}"
 DURATION="${DURATION:-30s}"
 P95_MS="${P95_MS:-1000}"
 MAX_FAIL="${MAX_FAIL:-0}"
+LOCUST_BIN="${LOCUST_BIN:-locust}"
 
 STATS_FILE="/tmp/locust_stats.csv"
 
-locust -f scripts/locust_smoke.py \
+"$LOCUST_BIN" -f scripts/locust_smoke.py \
   --headless \
   -u "$USERS" \
   -r "$SPAWN_RATE" \

@@ -2,7 +2,6 @@
 
 ## Install
 ```bash
-python3 -m venv .venv
 make setup
 ```
 
@@ -12,6 +11,9 @@ make lint
 make fmt
 make test
 ```
+
+- `make setup` prepares the shared tooling environment.
+- Test targets create isolated per-project virtual environments under `.venvs/` on demand.
 
 ## Quality bar
 - Tests must pass for the affected area
