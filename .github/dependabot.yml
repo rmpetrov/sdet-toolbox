@@ -28,7 +28,7 @@ updates:
         patterns: ["*"]
         update-types: ["minor", "patch"]
 
-  # Keep contract-specific compatibility restrictions scoped to this directory.
+  # Keep contract dependencies in their own weekly version-update group.
   - package-ecosystem: "pip"
     directory: "/mini-projects/contract-testing"
     schedule:
@@ -39,8 +39,3 @@ updates:
         applies-to: version-updates
         patterns: ["*"]
         update-types: ["minor", "patch"]
-    ignore:
-      # openapi-spec-validator==0.8.4 currently requires jsonschema>=4.24.0,<4.25.0
-      - dependency-name: "jsonschema"
-        versions:
-          - ">=4.25.0"
