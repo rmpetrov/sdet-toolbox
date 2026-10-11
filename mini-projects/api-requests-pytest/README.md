@@ -18,13 +18,11 @@ Python-based API checks for response validation, readable failure diagnostics, a
 - Requests
 - Allure for optional reporting
 
-## Why it matters
-- API checks add fast regression confidence below the UI layer.
-- Local fixtures make failures easier to reproduce and troubleshoot.
-- Clear assertions help turn broken responses into actionable debugging output.
-
 ## How to run
+From the repository root:
+
 ```bash
+cd mini-projects/api-requests-pytest
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt

@@ -25,7 +25,7 @@ make test
 ## View reports
 1. Run tests (`make test` or target-specific test commands).
 2. Generate reports (`make report`).
-3. Open `site/reports/<project>/index.html`.
+3. Serve `site/` with a local HTTP server and open `reports/<project>/` (see reporting notes).
 
 ## Branch and PR style
 - Branches: short, descriptive, kebab-case (for example `fix/api-timeout-assertion`).

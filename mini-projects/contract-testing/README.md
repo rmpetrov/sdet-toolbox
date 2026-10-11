@@ -10,7 +10,7 @@ Validation-focused contract example using OpenAPI and JSON Schema to catch inter
 ## Testing scope
 - The project validates local artifacts: `openapi.yaml`, `contracts/user.schema.json`, and `fixtures/user.json`.
 - Checks are deterministic and run without a live provider, which makes them fast and easy to troubleshoot.
-- The current example focuses on schema compatibility rather than full provider verification.
+- The current example focuses on validating a positive fixture rather than detecting changes between contract versions.
 
 ## Tools used
 - Python 3.11
@@ -20,13 +20,11 @@ Validation-focused contract example using OpenAPI and JSON Schema to catch inter
 - PyYAML
 - Allure for optional reporting
 
-## Why it matters
-- Contract validation helps prevent breaking API changes from reaching downstream consumers.
-- Schema-based checks provide useful regression coverage even when a live environment is unavailable.
-- Clear contract failures make troubleshooting easier during release preparation and change review.
-
 ## How to run
+From the repository root:
+
 ```bash
+cd mini-projects/contract-testing
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -40,3 +38,5 @@ allure generate allure-results --clean -o allure-report
 ```
 
 From the repository root, you can also run `make test-contract`.
+
+The OpenAPI response check resolves the single local User reference and applies Draft 7 validation to its basic object/type/required/email constraints. It is not a general validator for all OpenAPI 3.0 schema features or nested references.
