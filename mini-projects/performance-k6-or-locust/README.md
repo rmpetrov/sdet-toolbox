@@ -17,19 +17,19 @@ Lightweight performance smoke example for checking whether a simple user path st
 - Locust
 - Bash helper script for threshold checks
 
-## Why it matters
-- Performance smoke checks can catch obvious latency or stability regressions before deeper testing begins.
-- Threshold-based execution is useful for repeatable release checks and faster troubleshooting.
-- Keeping the scenario small makes it easier to understand what failed and why.
-
 ## How to run
+From the repository root:
+
 ```bash
+cd mini-projects/performance-k6-or-locust
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-bash ../../scripts/run_locust_smoke.sh https://example.com
+bash ../../scripts/run_locust_smoke.sh http://127.0.0.1:8000
 ```
 
 You can override the defaults with environment variables such as `USERS`, `SPAWN_RATE`, `DURATION`, `P95_MS`, and `MAX_FAIL`.
 
-From the repository root, you can also run `make perf-smoke` for the default example target.
+From the repository root, you can also run `make perf-smoke` after starting the local server described in the root README.
+
+Start the target before running. Use only hosts you control or have permission to exercise. This example is not executed by CI and does not establish application capacity. The directory name is historical; it contains Locust only.

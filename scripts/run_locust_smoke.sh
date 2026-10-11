@@ -1,42 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TARGET_HOST="${1:-https://example.com}"
-USERS="${USERS:-5}"
-SPAWN_RATE="${SPAWN_RATE:-1}"
-DURATION="${DURATION:-30s}"
-P95_MS="${P95_MS:-1000}"
-MAX_FAIL="${MAX_FAIL:-0}"
+root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+TARGET_HOST="${1:-http://127.0.0.1:8000}"
 LOCUST_BIN="${LOCUST_BIN:-locust}"
+PYTHON_BIN="${PYTHON_BIN:-python3}"
+stats_dir=$(mktemp -d)
+trap 'rm -rf "$stats_dir"' EXIT
 
-STATS_FILE="/tmp/locust_stats.csv"
+"$LOCUST_BIN" -f "$root_dir/mini-projects/performance-k6-or-locust/locustfile.py" \
+  --headless -u "${USERS:-5}" -r "${SPAWN_RATE:-1}" -t "${DURATION:-30s}" \
+  --host "$TARGET_HOST" --csv="$stats_dir/locust" --only-summary \
+  --exit-code-on-error 0
 
-"$LOCUST_BIN" -f scripts/locust_smoke.py \
-  --headless \
-  -u "$USERS" \
-  -r "$SPAWN_RATE" \
-  -t "$DURATION" \
-  --host "$TARGET_HOST" \
-  --csv="${STATS_FILE%.csv}" \
-  --only-summary
+"$PYTHON_BIN" - "$stats_dir/locust_stats.csv" "${P95_MS:-1000}" "${MAX_FAIL:-0}" <<'PY'
+import csv
+import sys
 
-TOTAL_LINE=$(tail -n +2 "${STATS_FILE}_stats.csv" | awk -F',' '$1=="Aggregated" {print $0}' | tail -n 1)
-if [ -z "$TOTAL_LINE" ]; then
-  echo "No aggregated stats found"
-  exit 1
-fi
-
-FAILS=$(echo "$TOTAL_LINE" | awk -F',' '{print $5}')
-P95=$(echo "$TOTAL_LINE" | awk -F',' '{print $11}')
-
-if [ "$FAILS" -gt "$MAX_FAIL" ]; then
-  echo "Failed: errors=$FAILS (max=$MAX_FAIL)"
-  exit 1
-fi
-
-if [ "$P95" -gt "$P95_MS" ]; then
-  echo "Failed: p95=${P95}ms (max=${P95_MS}ms)"
-  exit 1
-fi
-
-echo "OK: errors=$FAILS, p95=${P95}ms"
+with open(sys.argv[1], newline="") as stream:
+    aggregate = next((row for row in csv.DictReader(stream) if row["Name"] == "Aggregated"), None)
+if aggregate is None or int(aggregate["Request Count"]) == 0:
+    sys.exit("Failed: no requests recorded")
+failures = int(aggregate["Failure Count"])
+p95 = float(aggregate["95%"])
+if failures > int(sys.argv[3]) or p95 > float(sys.argv[2]):
+    sys.exit(f"Failed: errors={failures} (max={sys.argv[3]}), p95={p95}ms (max={sys.argv[2]}ms)")
+print(f"OK: errors={failures}, p95={p95}ms")
+PY

@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -39,7 +37,7 @@ jobs:
 
       - name: Install Allure
         run: |
-          curl -sSL -o allure.tgz https://github.com/allure-framework/allure2/releases/download/2.24.1/allure-2.24.1.tgz
+          curl -fsSL -o allure.tgz https://github.com/allure-framework/allure2/releases/download/2.24.1/allure-2.24.1.tgz
           tar -xzf allure.tgz
           sudo mv allure-2.24.1 /opt/allure
           sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
@@ -68,7 +66,7 @@ jobs:
           </head>
           <body>
             <h1>sdet-toolbox report portal</h1>
-            <p class="meta">Generated from branch: ${GITHUB_REF_NAME}</p>
+            <p class="meta">Generated from commit: ${GITHUB_SHA}</p>
             <ul>
               <li><a href="reports/ui-playwright-smoke/">UI smoke report</a></li>
               <li><a href="reports/api-requests-pytest/">API tests report</a></li>
@@ -88,6 +86,9 @@ jobs:
           path: site
 
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

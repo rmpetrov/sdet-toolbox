@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-from jsonschema import Draft7Validator, FormatChecker, RefResolver
-from openapi_spec_validator import validate_spec
+from jsonschema import Draft7Validator, FormatChecker
+from openapi_spec_validator import validate
 from yaml import safe_load
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -21,14 +21,15 @@ def test_user_contract_fixture():
 
 def test_openapi_spec_is_valid():
     spec = safe_load(OPENAPI_PATH.read_text())
-    validate_spec(spec)
+    validate(spec)
 
 
 def test_user_response_matches_openapi_schema():
     spec = safe_load(OPENAPI_PATH.read_text())
     response_schema = spec["paths"]["/users/{id}"]["get"]["responses"]["200"]["content"]["application/json"]["schema"]
     payload = json.loads(FIXTURE_PATH.read_text())
-    resolver = RefResolver.from_schema(spec)
-    validator = Draft7Validator(response_schema, resolver=resolver, format_checker=FormatChecker())
+    # This example has one local reference and no nested references.
+    response_schema = spec["components"]["schemas"][response_schema["$ref"].rsplit("/", 1)[-1]]
+    validator = Draft7Validator(response_schema, format_checker=FormatChecker())
     errors = sorted(validator.iter_errors(payload), key=lambda e: e.path)
     assert errors == []

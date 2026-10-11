@@ -5,7 +5,7 @@ Data quality checks focused on schema, null, type, range, and uniqueness validat
 ## What this project validates
 - Required columns and expected data types
 - Positive and unique `user_id` values
-- Basic email format checks
+- Email values contain `@` (not full email validation)
 - Age range rules and boolean coercion for `is_active`
 
 ## Testing scope
@@ -20,13 +20,11 @@ Data quality checks focused on schema, null, type, range, and uniqueness validat
 - Pandera
 - Allure for optional reporting
 
-## Why it matters
-- Data quality issues can break analytics, product decisions, and downstream integrations just as easily as code defects.
-- Schema and rule checks help catch defects early and provide repeatable evidence for release confidence.
-- Local validation makes it easier to troubleshoot bad records and evolve quality rules over time.
-
 ## How to run
+From the repository root:
+
 ```bash
+cd mini-projects/data-quality-tests
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt

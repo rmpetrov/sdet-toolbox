@@ -1,5 +1,7 @@
 # Flaky tests playbook
 
+General triage guidance when adapting these examples. Quarantine jobs, automatic retries, and trace capture are not configured here.
+
 ## Triage
 - Reproduce locally with trace and logs
 - Identify root cause: timing, data, environment, or product bug

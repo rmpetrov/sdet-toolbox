@@ -8,6 +8,7 @@ TOOLS_PIP := $(TOOLS_BIN)/pip
 RUFF := $(TOOLS_BIN)/ruff
 
 PLAYWRIGHT_INSTALL_ARGS ?= chromium
+PERF_HOST ?= http://127.0.0.1:8000
 
 API_DIR := mini-projects/api-requests-pytest
 API_REQ := $(API_DIR)/requirements.txt
@@ -47,71 +48,71 @@ help:
 	@echo "  make report       - Generate Allure HTML reports into site/reports"
 	@echo "  make clean        - Remove local virtualenvs and generated artifacts"
 
-$(TOOLS_VENV)/bin/activate: requirements-dev.txt
+$(TOOLS_VENV)/.installed: requirements-dev.txt
 	$(PYTHON) -m venv $(TOOLS_VENV)
 	$(TOOLS_PIP) install --upgrade pip
 	$(TOOLS_PIP) install -r requirements-dev.txt
 	touch $@
 
-$(API_VENV)/bin/activate: $(API_REQ)
+$(API_VENV)/.installed: $(API_REQ)
 	$(PYTHON) -m venv $(API_VENV)
 	$(API_VENV)/bin/pip install --upgrade pip
 	$(API_VENV)/bin/pip install -r $(API_REQ)
 	touch $@
 
-$(CONTRACT_VENV)/bin/activate: $(CONTRACT_REQ)
+$(CONTRACT_VENV)/.installed: $(CONTRACT_REQ)
 	$(PYTHON) -m venv $(CONTRACT_VENV)
 	$(CONTRACT_VENV)/bin/pip install --upgrade pip
 	$(CONTRACT_VENV)/bin/pip install -r $(CONTRACT_REQ)
 	touch $@
 
-$(DATA_VENV)/bin/activate: $(DATA_REQ)
+$(DATA_VENV)/.installed: $(DATA_REQ)
 	$(PYTHON) -m venv $(DATA_VENV)
 	$(DATA_VENV)/bin/pip install --upgrade pip
 	$(DATA_VENV)/bin/pip install -r $(DATA_REQ)
 	touch $@
 
-$(UI_VENV)/bin/activate: $(UI_REQ)
+$(UI_VENV)/.installed: $(UI_REQ)
 	$(PYTHON) -m venv $(UI_VENV)
 	$(UI_VENV)/bin/pip install --upgrade pip
 	$(UI_VENV)/bin/pip install -r $(UI_REQ)
 	touch $@
 
-$(PERF_VENV)/bin/activate: $(PERF_REQ)
+$(PERF_VENV)/.installed: $(PERF_REQ)
 	$(PYTHON) -m venv $(PERF_VENV)
 	$(PERF_VENV)/bin/pip install --upgrade pip
 	$(PERF_VENV)/bin/pip install -r $(PERF_REQ)
 	touch $@
 
-setup: $(TOOLS_VENV)/bin/activate
+setup: $(TOOLS_VENV)/.installed
 
-lint: $(TOOLS_VENV)/bin/activate
+lint: $(TOOLS_VENV)/.installed
 	$(RUFF) check .
 	$(RUFF) format --check .
 
-fmt: $(TOOLS_VENV)/bin/activate
+fmt: $(TOOLS_VENV)/.installed
 	$(RUFF) check . --fix
 	$(RUFF) format .
 
 format: fmt
 
-test-api: $(API_VENV)/bin/activate
+test-api: $(API_VENV)/.installed
 	$(API_PYTEST) $(API_DIR) --alluredir $(API_DIR)/allure-results
 
-test-contract: $(CONTRACT_VENV)/bin/activate
+test-contract: $(CONTRACT_VENV)/.installed
 	$(CONTRACT_PYTEST) $(CONTRACT_DIR) --alluredir $(CONTRACT_DIR)/allure-results
 
-test-data: $(DATA_VENV)/bin/activate
+test-data: $(DATA_VENV)/.installed
 	$(DATA_PYTEST) $(DATA_DIR) --alluredir $(DATA_DIR)/allure-results
 
-test-ui: $(UI_VENV)/bin/activate
+test-ui: $(UI_VENV)/.installed
 	$(UI_PY) -m playwright install $(PLAYWRIGHT_INSTALL_ARGS)
 	$(UI_PYTEST) $(UI_DIR) --alluredir $(UI_DIR)/allure-results
 
 test: test-api test-contract test-data test-ui
 
-perf-smoke: $(PERF_VENV)/bin/activate
-	LOCUST_BIN=$(PERF_LOCUST) ./scripts/run_locust_smoke.sh https://example.com
+perf-smoke: $(PERF_VENV)/.installed
+	LOCUST_BIN="$(PERF_LOCUST)" PYTHON_BIN="$(PERF_VENV)/bin/python" bash scripts/run_locust_smoke.sh "$(PERF_HOST)"
 
 report:
 	@if ! command -v allure >/dev/null 2>&1; then \

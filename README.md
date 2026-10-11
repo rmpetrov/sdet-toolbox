@@ -1,92 +1,50 @@
 # sdet-toolbox
 
 [![CI](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
-[![Lint](https://img.shields.io/github/actions/workflow/status/rmpetrov/sdet-toolbox/ci.yml?branch=main&label=lint)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
-[![Tests](https://img.shields.io/github/actions/workflow/status/rmpetrov/sdet-toolbox/ci.yml?branch=main&label=tests)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
 [![Pages](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/pages-report.yml/badge.svg?branch=main)](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/pages-report.yml)
 
-Practical QA and test engineering toolkit with compact, runnable projects for UI smoke checks, API validation, contract testing, data quality checks, and lightweight performance coverage. The examples are intentionally small enough to run locally, troubleshoot in CI, and reuse as validation-focused starting points.
+Five small, runnable test engineering examples. Each demonstrates a focused check using local sample code or data; this is a supporting portfolio repository.
 
-## Quick links
-- [Mini-projects catalog](mini-projects/README.md)
-- [GitHub Actions CI](https://github.com/rmpetrov/sdet-toolbox/actions/workflows/ci.yml)
-- [Published reports](https://rmpetrov.github.io/sdet-toolbox/)
-- [Test strategy](docs/test-strategy.md)
-- [Reporting notes](docs/reporting.md)
-- [Related Playwright framework repo](https://github.com/rmpetrov/playwright-tests)
+| Example | Actual validation scope |
+| --- | --- |
+| [API: requests + pytest](mini-projects/api-requests-pytest/README.md) | Three tests against a local HTTP server: health response, sample post fields, and a 404 payload. |
+| [UI: Playwright](mini-projects/ui-playwright-smoke/README.md) | Two Chromium tests against inline HTML: document title and a visible link with the expected href. No navigation or application workflow is tested. |
+| [Contract testing](mini-projects/contract-testing/README.md) | OpenAPI document validity and one local JSON fixture against a Draft 7 schema and the OpenAPI user schema. No live provider or consumer compatibility verification. |
+| [Data validation](mini-projects/data-quality-tests/README.md) | One Pandera check of a sample CSV: columns, coercible types, non-null values, unique positive IDs, age range, and emails containing `@`. |
+| [Performance: Locust](mini-projects/performance-k6-or-locust/README.md) | Repeated GET / with aggregate failure-count and approximate p95 thresholds. No capacity or application performance claim. |
 
-## What this repo covers
-- UI smoke checks for critical user-facing paths
-- API response validation with readable assertions and predictable fixtures
-- Contract safety using OpenAPI and JSON Schema validation
-- Data quality checks for schema, null, type, range, and uniqueness rules
-- Performance smoke execution with simple pass/fail thresholds
-- Reproducible execution through pinned dependencies, Make targets, CI, and report generation
+## Run locally
 
-## Mini-project map
-- [ui-playwright-smoke](mini-projects/ui-playwright-smoke/README.md): Playwright + pytest smoke checks for fast UI regression signal
-- [api-requests-pytest](mini-projects/api-requests-pytest/README.md): Python-based API validation with local endpoints and clear failure diagnostics
-- [contract-testing](mini-projects/contract-testing/README.md): OpenAPI and JSON Schema checks for contract consistency
-- [data-quality-tests](mini-projects/data-quality-tests/README.md): Pandera-based data validation for schema and business-rule coverage
-- [performance-k6-or-locust](mini-projects/performance-k6-or-locust/README.md): Locust smoke example with lightweight thresholds for response time and failures
+Use Python 3.11 (the CI version), Make, and Bash. Run these commands from the repository root:
 
-## Why this repo matters
-- It shows practical validation work across UI, API, contract, data, and performance-focused checks.
-- It favors maintainable automation over broad but brittle coverage.
-- It is useful for regression confidence, troubleshooting, and repeatable local or CI execution.
-- It includes report publishing and CI visibility where that helps make failures easier to inspect.
-
-## Tools and stack
-- Python 3.11
-- pytest
-- Playwright
-- Requests
-- pandas
-- Pandera
-- `jsonschema`
-- `openapi-spec-validator`
-- OpenAPI YAML examples
-- Locust
-- Ruff
-- Allure
-- GitHub Actions
-
-## How to run
 ```bash
 make setup
 make lint
 make test
+```
+
+Make creates separate environments under `.venvs/`. Individual targets are `test-api`, `test-contract`, `test-data`, and `test-ui`. UI setup downloads Chromium; Linux may require `make test-ui PLAYWRIGHT_INSTALL_ARGS="--with-deps chromium"` to install system libraries. Dependencies require internet access for installation. Direct dependencies are pinned; transitive dependencies are not locked.
+
+For a local performance demonstration, start a server in another terminal:
+
+```bash
+python3 -m http.server 8000 --bind 127.0.0.1 --directory mini-projects
+```
+
+Then run:
+
+```bash
 make perf-smoke
-make report
+# For a target you control:
+make perf-smoke PERF_HOST=http://127.0.0.1:8000
 ```
 
-- `make setup` creates the shared tooling environment used for linting and formatting.
-- `make test` runs the API, contract, data quality, and UI projects in isolated virtual environments under `.venvs/`.
-- `make test-ui` installs Playwright browsers inside the UI project environment before running the smoke suite.
-- `make report` generates local Allure HTML into `site/reports` and requires the Allure CLI to be installed.
-- `make perf-smoke` runs the Locust smoke example against `https://example.com` by default.
+Defaults: 5 users, 30 seconds, zero failures, p95 <= 1000 ms. Override `USERS`, `SPAWN_RATE`, `DURATION`, `P95_MS`, or `MAX_FAIL` as needed. The local static server only demonstrates execution and threshold evaluation. Locust is not run in CI.
 
-## Project structure
-```text
-.
-|-- docs/
-|-- mini-projects/
-|   |-- api-requests-pytest/
-|   |-- contract-testing/
-|   |-- data-quality-tests/
-|   |-- performance-k6-or-locust/
-|   `-- ui-playwright-smoke/
-|-- .venvs/
-|-- scripts/
-|-- Makefile
-`-- requirements-dev.txt
-```
+## CI and reports
 
-## CI, reports, and docs
-- CI runs linting plus the API, contract, data quality, and UI test projects on GitHub Actions.
-- The Pages workflow publishes Allure reports for the UI, API, contract, and data quality projects.
-- Supporting docs cover [test strategy](docs/test-strategy.md), [CI/CD](docs/ci-cd.md), [reporting](docs/reporting.md), and [flaky test handling](docs/flaky-tests.md).
+CI runs Ruff and the four pytest suites and uploads Allure result artifacts, including on test failure. The separate Pages workflow reruns those suites on main and publishes reports after successful tests. See the [report portal](https://rmpetrov.github.io/sdet-toolbox/).
 
-## Contact
-- LinkedIn: [https://www.linkedin.com/in/rmpetrov/](https://www.linkedin.com/in/rmpetrov/)
-- Email: [rpetrovqa@gmail.com](mailto:rpetrovqa@gmail.com)
+`make report` generates HTML in `site/reports/` from existing Allure results and requires the [Allure CLI](https://allurereport.org/docs/install/). Results accumulate across local runs; clear old result directories before a fresh report. Reports do not preserve history between Pages builds.
+
+See [test strategy](docs/test-strategy.md), [CI/CD](docs/ci-cd.md), [reporting](docs/reporting.md), [debugging flaky tests](docs/flaky-tests.md), and [contributing](CONTRIBUTING.md).
