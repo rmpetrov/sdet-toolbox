@@ -4,32 +4,43 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 2
+    groups:
+      actions-minor-patch:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  # Share one version-update group across these independent Python environments.
   - package-ecosystem: "pip"
-    directory: "/"
+    directories:
+      - "/"
+      - "/mini-projects/ui-playwright-smoke"
+      - "/mini-projects/api-requests-pytest"
+      - "/mini-projects/performance-k6-or-locust"
+      - "/mini-projects/data-quality-tests"
     schedule:
       interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/mini-projects/ui-playwright-smoke"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/mini-projects/api-requests-pytest"
-    schedule:
-      interval: "weekly"
+    open-pull-requests-limit: 3
+    groups:
+      python-minor-patch:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  # Keep contract-specific compatibility restrictions scoped to this directory.
   - package-ecosystem: "pip"
     directory: "/mini-projects/contract-testing"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 2
+    groups:
+      contract-minor-patch:
+        applies-to: version-updates
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
     ignore:
       # openapi-spec-validator==0.8.4 currently requires jsonschema>=4.24.0,<4.25.0
       - dependency-name: "jsonschema"
         versions:
           - ">=4.25.0"
-  - package-ecosystem: "pip"
-    directory: "/mini-projects/performance-k6-or-locust"
-    schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/mini-projects/data-quality-tests"
-    schedule:
-      interval: "weekly"
